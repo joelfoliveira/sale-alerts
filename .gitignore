@@ -1,0 +1,5 @@
+#Ignore IDE files
+.idea
+
+#Ignore dependecy packages
+vendor

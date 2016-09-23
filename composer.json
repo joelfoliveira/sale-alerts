@@ -1,0 +1,13 @@
+{
+  "name": "Uonze/sale-alerts",
+  "description": "description_text",
+  "authors": [
+    {
+      "name": "Joel Oliveira"
+    }
+  ],
+  "require": {
+    "fabpot/goutte": "v3.1.2",
+    "mandrill/mandrill": "1.0.55"
+  }
+}
