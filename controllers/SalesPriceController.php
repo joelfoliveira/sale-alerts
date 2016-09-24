@@ -81,9 +81,6 @@ class SalesPriceController
 
     private function shouldUserBeNotifiedAboutProduct(Product $product, ProductProviderInfo $productProviderInfo)
     {
-        //Todo: remove
-        return true;
-
         $lowestStorePrice = $productProviderInfo->getLowestStorePrice();
 
         if($lowestStorePrice == null){
