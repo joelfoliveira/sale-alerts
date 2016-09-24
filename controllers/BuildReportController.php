@@ -4,7 +4,7 @@
 namespace SaleAlerts;
 
 
-class BuildReport
+class BuildReportController
 {
     public function sendReport()
     {
@@ -13,7 +13,22 @@ class BuildReport
 
         if(is_array($products) && count($products) > 0)
         {
-            $emailHtml = $this->getBuildReportTemplate($products);
+            $lastBuildReport = BuildReport::getLast();
+
+            $newBuildReport = $this->generateBuildReport($products);
+            $newBuildReport->insert();
+
+            $stats = BuildReportStats::getStats();
+            if($stats == null){
+                $stats = new BuildReportStats();
+            }
+            $stats->updateWithNewBuildReport($newBuildReport);
+
+            $emailHtml = $this->getBuildReportTemplate($newBuildReport, $lastBuildReport, $stats);
+
+            if(Config::$printEmail){
+                echo $emailHtml;
+            }
 
             if(!empty($emailHtml))
             {
@@ -24,11 +39,20 @@ class BuildReport
         return $emailSent;
     }
 
-    private function getBuildReportTemplate($products)
+    private function generateBuildReport($products)
+    {
+        $br =  new BuildReport();
+        $br->price = Product::getTotal($products);
+        $br->date = time();
+        $br->products = $products;
+        return $br;
+    }
+
+    private function getBuildReportTemplate($newBuildReport, $lastBuildReport, $stats)
     {
         $loader = new \Twig_Loader_Filesystem(dirname(__DIR__).DIRECTORY_SEPARATOR.'views');
         $twig = new \Twig_Environment($loader);
-        $template = $twig->loadTemplate('BuildReport.html');
-        return $template->render(array('products' => $products));
+        $template = $twig->loadTemplate('BuildReport.twig');
+        return $template->render(array('newBuildReport' => $newBuildReport, 'lastBuildReport' => $lastBuildReport, 'stats' => $stats));
     }
 }

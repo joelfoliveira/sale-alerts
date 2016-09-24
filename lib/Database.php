@@ -1,12 +1,17 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: joelf
- * Date: 23/09/2016
- * Time: 23:43
- */
+namespace SaleAlerts;
+
 class Database
 {
+    public static $db;
 
+    public static function getInstance()
+    {
+        if(self::$db == null){
+            self::$db = new \Slim\PDO\Database(Config::$dbConnectionString, Config::$dbUser, Config::$dbPassword);
+        }
+
+        return self::$db;
+    }
 }

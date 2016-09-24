@@ -1,6 +1,8 @@
 {
   "name": "Uonze/sale-alerts",
   "description": "description_text",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
   "authors": [
     {
       "name": "Joel Oliveira"
@@ -8,6 +10,8 @@
   ],
   "require": {
     "fabpot/goutte": "v3.1.2",
-    "mandrill/mandrill": "1.0.55"
+    "mandrill/mandrill": "1.0.55",
+    "slim/pdo": "1.10.0",
+    "twig/twig": "2.0.x-dev"
   }
 }

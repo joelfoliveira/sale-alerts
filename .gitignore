@@ -3,3 +3,6 @@
 
 #Ignore dependecy packages
 vendor
+
+#Ignore config file
+lib/Config.php

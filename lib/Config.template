@@ -1,0 +1,30 @@
+<?php
+
+namespace SaleAlerts;
+
+class Config
+{
+    public static $priceDiffPercentageFromLowest = 5;
+    public static $priceDiffPercentageFromLast = 5;
+    public static $priceDiffPercentageFromAverage = 10;
+
+    public static $printEmail = true;
+
+    public static $apiKey = '';
+
+    public static $dbConnectionString = 'mysql:host=[REPLACE_BY_DB_HOST];dbname=[REPLACE_BY_DB_NAME];charset=utf8';
+    public static $dbUser = '';
+    public static $dbPassword = '';
+
+    public static $mandrillApiKey = '';
+    public static $emailSaleAlertSubject = '';
+    public static $emailBuildReportSubject = '';
+    public static $emailSource = '';
+    public static $emailSourceName = '';
+    public static $emailDestination = '';
+    public static $emailDestinationName = '';
+
+    public static $providers = array();
+
+    public static $allowedStores = array();
+}
