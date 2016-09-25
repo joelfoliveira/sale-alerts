@@ -3,30 +3,31 @@
 <h1>Build Report</h1>
 <div>Date: {{ "now"|date("Y/m/d") }}</div>
 <br />
-<table class="price-list" cellpadding="0" cellspacing="0" border="0" align="left">
+<table class="price-list" cellpadding="0" cellspacing="0" border="0" align="left" style="float: none;">
     <tr style="font-weight: bold;">
         <td align="left" style="padding-left: 0px;">Build Total</td>
-        <td align="left">{{ newBuildReport.price|number_format(2, ',', '') }}€</td>
-        <td align="left">{{ newBuildReport.date|date("Y/m/d") }}</td>
+        <td align="left" style="padding: 4px 10px;">{{ newBuildReport.price|number_format(2, ',', '') }}€</td>
+        <td align="left" style="padding: 4px 10px;">{{ newBuildReport.date|date("Y/m/d") }}</td>
     </tr>
-    <td align="left" style="padding-left: 0px;">Last Build Price</td>
-    <td align="left">{{ lastBuildReport.price|number_format(2, ',', '') }}€</td>
-    <td align="left">{{ lastBuildReport.date|date("Y/m/d") }}</td>
+    <tr>
+        <td align="left" style="padding-left: 0px;">Last Build Price</td>
+        <td align="left" style="padding: 4px 10px;">{{ lastBuildReport.price|number_format(2, ',', '') }}€</td>
+        <td align="left" style="padding: 4px 10px;">{{ lastBuildReport.date|date("Y/m/d") }}</td>
     </tr>
     <tr>
         <td align="left" style="padding-left: 0px;">Highest Build Price</td>
-        <td align="left">{{ stats.highestPrice|number_format(2, ',', '') }}€</td>
-        <td align="left">{{ stats.highestPriceDate|date("Y/m/d") }}</td>
+        <td align="left" style="padding: 4px 10px;">{{ stats.highestPrice|number_format(2, ',', '') }}€</td>
+        <td align="left" style="padding: 4px 10px;">{{ stats.highestPriceDate|date("Y/m/d") }}</td>
     </tr>
     <tr>
         <td align="left" style="padding-left: 0px;">Lowest Build Price</td>
-        <td align="left">{{ stats.lowestPrice|number_format(2, ',', '') }}€</td>
-        <td align="left">{{ stats.lowestPriceDate|date("Y/m/d") }}</td>
+        <td align="left" style="padding: 4px 10px;">{{ stats.lowestPrice|number_format(2, ',', '') }}€</td>
+        <td align="left" style="padding: 4px 10px;">{{ stats.lowestPriceDate|date("Y/m/d") }}</td>
     </tr>
     <tr>
         <td align="left" style="padding-left: 0px;">Average Build Price</td>
-        <td align="left">{{ stats.averagePrice|number_format(2, ',', '') }}€</td>
-        <td align="left">&nbsp;</td>
+        <td align="left" style="padding: 4px 10px;">{{ stats.averagePrice|number_format(2, ',', '') }}€</td>
+        <td align="left" style="padding: 4px 10px;">&nbsp;</td>
     </tr>
 </table>
 <br />
