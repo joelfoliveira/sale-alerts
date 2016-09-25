@@ -22,7 +22,12 @@
     padding: 2px 10px;
 }
 
-.price-table td.col-store{
+.price-table td.col-store {
     text-align: center;
     width: 150px;
+}
+
+
+.total-panel{
+    margin-top: 25px;
 }

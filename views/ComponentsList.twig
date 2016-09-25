@@ -4,7 +4,6 @@
 
 {% block content %}
 
-
     <div class="page-header">
         <h1>PC Build <small>Component List</small></h1>
     </div>
@@ -16,14 +15,15 @@
                 {% for catName in productsByCatName|keys %}
                     <li role="presentation" class="{{ (catName == 'CPU') ? 'active' : '' }}"><a href="#{{ catName }}" role="tab" data-toggle="tab">{{ catName }}</a></li>
                 {% endfor %}
+                {% if buildProducts|length > 0 %}
+                    <li role="presentation"><a href="#Build" role="tab" data-toggle="tab">My Build</a></li>
+                {% endif %}
             </ul>
 
             <div class="tab-content">
                 {% for catName in productsByCatName|keys %}
                     <div role="tabpanel" class="tab-pane {{ (catName == 'CPU') ? 'active' : '' }}" id="{{ catName }}">
-
                         <table class="table table-striped component-table">
-
                             <thead>
                                 <tr>
                                     <th class="col-image">Image</th>
@@ -31,65 +31,43 @@
                                     <th class="col-prices">Prices</th>
                                 </tr>
                             </thead>
-
-                        {% for product in productsByCatName[catName] %}
-
-                            {% if product.visible == true %}
-
-                                <tbody>
-                                    <tr class="{{ (product.buildReport == true) ? 'success' : '' }}">
-                                        <td  class="col-image">
-                                            <img src="{{ product.imageUrl }}" alt="{{ product.name }}"/>
-                                        </td>
-                                        <td class="col-name">
-                                            <a href="{{ product.url }}" target="_black">{{ product.name }}</a>
-                                        </td>
-                                        <td class="col-prices">
-
-                                            <table class="price-table">
-                                                <tr>
-                                                    <td><strong>Last:</strong></td>
-                                                    <td>{{ product.lastPriceDate|date("Y/m/d") }}</td>
-                                                    <td class="col-store">{{ product.lastPriceStore }}</td>
-                                                    <td>{{ product.lastPrice|number_format(2, ',', '') }}€</td>
-                                                </tr>
-                                                <tr>
-                                                    <td><strong>Highest:</strong></td>
-                                                    <td>{{ product.highestPriceDate|date("Y/m/d") }}</td>
-                                                    <td class="col-store">{{ product.highestPriceStore }}</td>
-                                                    <td>{{ product.highestPrice|number_format(2, ',', '') }}€</td>
-                                                </tr>
-                                                <tr>
-                                                    <td><strong>Lowest:</strong></td>
-                                                    <td>{{ product.lowestPriceDate|date("Y/m/d") }}</td>
-                                                    <td class="col-store">{{ product.lowestPriceStore }}</td>
-                                                    <td>{{ product.lowestPrice|number_format(2, ',', '') }}€</td>
-                                                </tr>
-                                                <tr>
-                                                    <td><strong>Initial:</strong></td>
-                                                    <td>{{ product.initialPriceDate|date("Y/m/d") }}</td>
-                                                    <td class="col-store">{{ product.initialPriceStore }}</td>
-                                                    <td>{{ product.initialPrice|number_format(2, ',', '') }}€</td>
-                                                </tr>
-                                                <tr>
-                                                    <td><strong>Average:</strong></td>
-                                                    <td>&nbsp;</td>
-                                                    <td class="col-store">&nbsp;</td>
-                                                    <td>{{ product.averagePrice|number_format(2, ',', '') }}€</td>
-                                                </tr>
-                                            </table>
-
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            {% endif %}
-
-                        {% endfor %}
+                            {% for product in productsByCatName[catName] %}
+                                {% if product.visible == true %}
+                                    {{ include('ComponentListItem.twig') }}
+                                {% endif %}
+                            {% endfor %}
                         </table>
-
-
                     </div>
                 {% endfor %}
+
+                {% if buildProducts|length > 0 %}
+
+                    <div role="tabpanel" class="tab-pane" id="Build">
+
+                        <div class="panel panel-default total-panel">
+                            <div class="panel-body">
+                                <span>Total: </span>
+                                <span>{{ total|number_format(2, ',', '') }}€</span>
+                            </div>
+                        </div>
+
+                        <table class="table table-striped component-table">
+                            <thead>
+                            <tr>
+                                <th class="col-image">Image</th>
+                                <th class="col-name">Name</th>
+                                <th class="col-prices">Prices</th>
+                            </tr>
+                            </thead>
+                            {% for product in buildProducts %}
+
+                                {% if product.visible == true %}
+                                    {{ include('ComponentListItem.twig') }}
+                                {% endif %}
+                            {% endfor %}
+                        </table>
+                    </div>
+                {% endif %}
             </div>
 
         </div>

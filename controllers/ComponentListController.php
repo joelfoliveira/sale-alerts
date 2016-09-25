@@ -11,7 +11,10 @@ class ComponentListController
 
         $productsByCatName = $this->getProductsByCategoryWithCategoryNames($productsByCat);
 
-        echo $this->getComponentListTemplate($productsByCatName);
+        $buildProducts = Product::getBuildProducts();
+        $total = Product::getTotal($buildProducts);
+
+        echo $this->getComponentListTemplate($productsByCatName, $buildProducts, $total);
     }
 
     private function getProductsByCategoryWithCategoryNames($productsByCat)
@@ -33,11 +36,11 @@ class ComponentListController
         return $productsByCatName;
     }
 
-    private function getComponentListTemplate($productsByCatName)
+    private function getComponentListTemplate($productsByCatName, $buildProducts, $total)
     {
         $loader = new \Twig_Loader_Filesystem(dirname(__DIR__).DIRECTORY_SEPARATOR.'views');
         $twig = new \Twig_Environment($loader);
         $template = $twig->loadTemplate('ComponentsList.twig');
-        return $template->render(array('productsByCatName' => $productsByCatName));
+        return $template->render(array('productsByCatName' => $productsByCatName, 'buildProducts' => $buildProducts, 'total' => $total));
     }
 }
