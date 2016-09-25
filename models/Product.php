@@ -7,6 +7,7 @@ class Product
     private static $dbTableName = 'products';
 
     public $id = 0;
+    public $idCat;
     public $name;
     public $url;
     public $imageUrl;
@@ -135,7 +136,7 @@ class Product
 
         $db = Database::getInstance();
 
-        $selectStatement = $db->select()->from(self::$dbTableName)->where('active', '=', '1')->orderBy('id_cat', 'ASC')->orderBy('lowest_price', 'ASC');
+        $selectStatement = $db->select()->from(self::$dbTableName)->where('active', '=', '1')->orderBy('id_cat', 'ASC')->orderBy('last_price', 'ASC');
         $stmt = $selectStatement->execute();
         $result = $stmt->fetchAll();
 
@@ -207,10 +208,30 @@ class Product
         return $products;
     }
 
+    public static function organizeByCategory($products)
+    {
+        $productsByCat = array();
+
+        if(is_array($products) && count($products) > 0)
+        {
+            foreach($products as $key => $product)
+            {
+                if(!isset($productsByCat[$product->idCat])){
+                    $productsByCat[$product->idCat] = array();
+                }
+
+                array_push($productsByCat[$product->idCat], $product);
+            }
+        }
+
+        return $productsByCat;
+    }
+
     private static function arrayToModel($objArray)
     {
         $obj = new Product();
         $obj->id = $objArray['id'];
+        $obj->idCat = $objArray['id_cat'];
         $obj->name = $objArray['name'];
         $obj->url = $objArray['url'];
         $obj->imageUrl = $objArray['image_url'];
@@ -240,6 +261,7 @@ class Product
     private static function modelToArray(Product $model)
     {
         return array(
+            'id_cat' => $model->idCat,
             'name' => $model->name,
             'url' => $model->url,
             'image_url' => $model->imageUrl,

@@ -13,10 +13,12 @@ class Application
         require_once 'lib/Database.php';
         require_once 'lib/Utils.php';
 
+        require_once 'controllers/ComponentListController.php';
         require_once 'controllers/SalesPriceController.php';
         require_once 'controllers/BuildReportController.php';
 
         require_once 'models/Product.php';
+        require_once 'models/ProductCategory.php';
         require_once 'models/ProductProviderInfo.php';
         require_once 'models/BuildReport.php';
         require_once 'models/BuildReportStats.php';

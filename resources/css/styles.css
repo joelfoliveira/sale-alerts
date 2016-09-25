@@ -1,0 +1,28 @@
+
+.component-table .col-image{
+    width: 150px;
+    padding-right: 50px;
+}
+
+.component-table tbody .col-name,
+.component-table tbody .col-prices{
+    padding-top: 15px;
+}
+
+.component-table tbody .col-name{
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.component-table .col-name{
+    width: 300px;
+}
+
+.price-table td{
+    padding: 2px 10px;
+}
+
+.price-table td.col-store{
+    text-align: center;
+    width: 150px;
+}
