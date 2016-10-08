@@ -9,6 +9,7 @@ class Config
     public static $priceDiffPercentageFromAverage = 10;
 
     public static $printEmail = true;
+    public static $sendEmail = true;
 
     public static $apiKey = '';
 
