@@ -20,9 +20,8 @@ class SalesPriceController
                 try
                 {
                     $productProviderInfo = $this->getProductProviderInfo($product);
-                    if(is_array($productProviderInfo->storePrices) && count($productProviderInfo->storePrices))
+                    if(!is_null($productProviderInfo) && is_array($productProviderInfo->storePrices) && count($productProviderInfo->storePrices))
                     {
-
                         if($this->shouldUserBeNotifiedAboutProduct($product, $productProviderInfo))
                         {
                             array_push($productsToNotify, $product);

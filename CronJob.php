@@ -2,6 +2,8 @@
 
 namespace SaleAlerts;
 
+set_time_limit(180);
+
 require_once('lib/Config.php');
 if(isset($_GET['key']) && $_GET['key'] === Config::$apiKey)
 {

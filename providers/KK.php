@@ -2,26 +2,44 @@
 
 namespace SaleAlerts;
 
-use Goutte\Client;
+use Sunra\PhpSimple\HtmlDomParser;
 
 class KK implements IProvider
 {
-    private $crawler;
-    private $product;
+    private $dom;
 
     public function getProductProviderInfo(Product $product)
     {
-        $this->product = $product;
+        $productInfo = null;
 
-        $client = new Client();
-        $this->crawler = $client->request('GET', $product->url);
+        $this->dom = $this->getProductDomDocumentFromUrl($product->url);
 
-        $productInfo = new ProductProviderInfo();
-        $productInfo->name = $this->getProductName();
-        $productInfo->imageUrl = $this->getProductImageUrl();
-        $productInfo->storePrices = $this->getProductStorePrices();
+        if(!is_null($this->dom) && !empty($this->dom))
+        {
+            $productInfo = new ProductProviderInfo();
+            $productInfo->name = $this->getProductName();
+            $productInfo->imageUrl = $this->getProductImageUrl();
+            $productInfo->storePrices = $this->getProductStorePrices();
+        }
+
+        if($productInfo == null){
+            throw new \NullPointerException(sprintf("Product %s not found", $product->name));
+        }
 
         return $productInfo;
+    }
+
+    private function getProductDomDocumentFromUrl($url)
+    {
+        $dom = null;
+
+        $html = file_get_contents($url);
+        if(!empty($html))
+        {
+            $dom = HtmlDomParser::str_get_html($html);
+        }
+
+        return $dom;
     }
 
     private function getProductName()
@@ -30,7 +48,10 @@ class KK implements IProvider
 
         try
         {
-            $name = $this->crawler->filter('h1[class="product-title"]')->text();
+            $nameElem = $this->dom->find('h1[class=product-title]', 0);
+            if(!empty($nameElem)){
+                $name = $nameElem->plaintext;
+            }
         }
         catch(\Exception $e)
         {
@@ -46,7 +67,20 @@ class KK implements IProvider
 
         try
         {
-            $image = $this->crawler->filter('a[class="fancybox product-image"] img')->attr('src');
+            $imageElem = $this->dom->find('div[id="product-image"] img', 0);
+            if(!empty($imageElem))
+            {
+                $image = $imageElem->src;
+            }
+            else
+            {
+                //Fallback
+                $imageElem = $this->dom->find('a[class="product-image"] img[class="img-responsive"]', 0);
+                if(!empty($imageElem))
+                {
+                    $image = $imageElem->src;
+                }
+            }
         }
         catch(\Exception $e)
         {
@@ -62,31 +96,39 @@ class KK implements IProvider
 
         try
         {
-            $this->crawler->filter('#stores-offer-wrapper div[class="store-line store-line-active"]')->each(function($node, $i) use (&$storePrices)
+            foreach($this->dom->find('div[class=store-line-active]') as $storeElem)
             {
-                $storeLink = $node->filter('a[class="btn store-item-go"]')->attr('onclick');
-
-                $store = '';
-                foreach(Config::$allowedStores as $key => $storeKey )
+                $storeLinkElem = $storeElem->find('a[class=store-item-go]', 0);
+                if(!empty($storeLinkElem))
                 {
-                    if (strpos($storeLink, $storeKey) !== false)
+                    $storeLink = $storeLinkElem->onclick;
+
+                    $store = '';
+                    foreach(Config::$allowedStores as $key => $storeKey )
                     {
-                        $store = $storeKey;
-                        break;
+                        if (strpos($storeLink, $storeKey) !== false)
+                        {
+                            $store = $storeKey;
+                            break;
+                        }
+                    }
+
+                    if(!empty($store))
+                    {
+                        $priceStrElem = $storeElem->find('span[class=price]', 0);
+                        if(!empty($priceStrElem))
+                        {
+                            $priceStr = $priceStrElem->plaintext;
+                            $price = Utils::stringPriceToFloat($priceStr);
+                            if($price > 0)
+                            {
+                                $sp = new StorePrice($store, $price);
+                                array_push($storePrices, $sp);
+                            }
+                        }
                     }
                 }
-
-                if(!empty($store))
-                {
-                    $priceStr = $node->filter('span[class="price "]')->text();
-                    $price = Utils::stringPriceToFloat($priceStr);
-                    if($price > 0)
-                    {
-                        $sp = new StorePrice($store, $price);
-                        array_push($storePrices, $sp);
-                    }
-                }
-            });
+            }
         }
         catch(\Exception $e)
         {

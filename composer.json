@@ -9,9 +9,9 @@
     }
   ],
   "require": {
-    "fabpot/goutte": "v3.1.2",
     "mandrill/mandrill": "1.0.55",
     "slim/pdo": "1.10.0",
-    "twig/twig": "2.0.x-dev"
+    "twig/twig": "2.0.x-dev",
+    "sunra/php-simple-html-dom-parser": "v1.5.1"
   }
 }
