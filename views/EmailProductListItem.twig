@@ -17,6 +17,14 @@
                 <br />
                 <br />
                 <table cellpadding="0" cellspacing="0" border="0" align="center" width="450">
+                    {% if product.previousLastPrice is not null or product.previousLastPrice > 0 %}
+                        <tr>
+                            <td align="right">Previous Price:</td>
+                            <td align="right">{{ product.previousLastPriceDate|date("Y/m/d") }}</td>
+                            <td align="right">{{ product.previousLastPriceStore }}</td>
+                            <td align="right" style="padding-right: 10px;">{{ product.previousLastPrice|number_format(2, ',', '') }}€</td>
+                        </tr>
+                    {% endif %}
                     <tr>
                         <td align="right">Highest:</td>
                         <td align="right">{{ product.highestPriceDate|date("Y/m/d") }}</td>

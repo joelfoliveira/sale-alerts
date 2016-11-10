@@ -92,13 +92,13 @@ class SalesPriceController
             return false;
         }
 
-        $lowestPercentageDiff = ($lowestPrice / $product->lowestPrice) * 100;
-        if($lowestPercentageDiff >= Config::$priceDiffPercentageFromLowest){
+        //$lowestPercentageDiff = ($lowestPrice / $product->lowestPrice) * 100;
+        if($lowestPrice < $product->lowestPrice){
             return true;
         }
 
-        $lastPercentageDiff = ($lowestPrice / $product->lastPrice) * 100;
-        if($lastPercentageDiff >= Config::$priceDiffPercentageFromLast){
+        //$lastPercentageDiff = ($lowestPrice / $product->lastPrice) * 100;
+        if($lowestPrice < $product->lastPrice){
             return true;
         }
 

@@ -31,6 +31,10 @@ class Product
     public $numUpdates;
     public $buildReport;
 
+    public $previousLastPrice;
+    public $previousLastPriceDate;
+    public $previousLastPriceStore;
+
     public function insert()
     {
         $product = $this->id > 0 ? self::getById($this->id) : null;
@@ -97,6 +101,10 @@ class Product
             $this->initialPriceDate = $time;
             $this->initialPriceStore = $lowestStorePrice->storeName;
         }
+
+        $this->previousLastPrice = $this->lastPrice;
+        $this->previousLastPriceDate = $this->lastPriceDate;
+        $this->previousLastPriceStore = $this->lastPriceStore;
 
         $this->lastPrice = $lowestStorePrice->price;
         $this->lastPriceDate = $time;
