@@ -11,7 +11,7 @@ class Utils
         return floatval(str_replace(',', '.', str_replace('.', '', $priceStr)));
     }
 
-    public static function sendEmail($emailHtml, $subject)
+    public static function sendEmail($emailHtml, $subject, $destination)
     {
         $mandrill = new \Mandrill(Config::$mandrillApiKey);
 
@@ -23,13 +23,7 @@ class Utils
             'subject' => $subject,
             'from_email' => Config::$emailSource,
             'from_name' => Config::$emailSourceName,
-            'to' => array(
-                array(
-                    'email' => Config::$emailDestination,
-                    'name' => Config::$emailDestinationName,
-                    'type' => 'to'
-                )
-            ),
+            'to' => $destination,
             'important' => false,
             'track_opens' => null,
             'track_clicks' => null,

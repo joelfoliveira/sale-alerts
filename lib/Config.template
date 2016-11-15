@@ -22,8 +22,15 @@ class Config
     public static $emailBuildReportSubject = '';
     public static $emailSource = '';
     public static $emailSourceName = '';
-    public static $emailDestination = '';
-    public static $emailDestinationName = '';
+
+    public static $emailSaleAlertDestinations = array(
+        array('email' => '', 'name' => '', 'type' => ''),
+        array('email' => '', 'name' => '', 'type' => '')
+    );
+
+    public static $emailBuildReportDestinations = array(
+        array('email' => 'joelfilipeoliveira@gmail.com', 'name' => 'Joel Oliveira', 'type' => 'to')
+    );
 
     public static $providers = array();
 

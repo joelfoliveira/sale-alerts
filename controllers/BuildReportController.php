@@ -32,7 +32,7 @@ class BuildReportController
 
             if(Config::$sendEmail && !empty($emailHtml))
             {
-                $emailSent = Utils::sendEmail($emailHtml, Config::$emailBuildReportSubject);
+                $emailSent = Utils::sendEmail($emailHtml, Config::$emailBuildReportSubject, Config::$emailBuildReportDestinations);
             }
         }
 

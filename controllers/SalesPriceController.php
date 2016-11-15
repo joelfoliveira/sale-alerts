@@ -120,7 +120,7 @@ class SalesPriceController
 
         if(Config::$sendEmail && !empty($emailHtml))
         {
-            return Utils::sendEmail($emailHtml, Config::$emailSaleAlertSubject);
+            return Utils::sendEmail($emailHtml, Config::$emailSaleAlertSubject, Config::$emailSaleAlertDestinations);
         }
         else
         {
